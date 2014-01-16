@@ -1,6 +1,6 @@
-package com.doneshare.mavlink;
+// package com.doneshare.mavlink;
 
-option java_package = "com.droneshare.mavlink";
+// option java_package = "com.droneshare.mavlink";
 
 /*
 For information on protocol buffer versioning see: https://developers.google.com/protocol-buffers/docs/overview
@@ -13,7 +13,7 @@ to gracefully communicate with implementations that might be written to either n
 
 // Test of the heartbeat msg
 message Heartbeat {
-	required uint32 typ = 1;
+	required uint32 typ = 1; // FIXME - could use a PB enum for many of these fields
         required uint32 autopilot = 2;
 	required uint32 base_mode = 3;
 	required uint32 custom_mode = 4;

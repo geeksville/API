@@ -1,0 +1,9 @@
+system_id: 1
+component_id: 1
+type: GpsRawIntCode
+gpsRawInt: {
+  time_usec: 678912034
+  fix_type: D2
+  lat: 1201234
+  lon: 1201234
+}
