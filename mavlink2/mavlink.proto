@@ -11,7 +11,8 @@ https://developers.google.com/protocol-buffers/docs/techniques.  Even without us
 to gracefully communicate with implementations that might be written to either newer or older versions of the protocol.
 */
 
-// Test of the heartbeat msg
+// Test of the heartbeat msg - the space needed for this payload is 9 bytes in mavlink 1.0 (17 bytes total including sys/comp/type/crc/framing).  
+// For equivalent fully loaded (sys/comp/type) protobuf is 26 bytes
 message Heartbeat {
 	required uint32 typ = 1; // FIXME - could use a PB enum for many of these fields
         required uint32 autopilot = 2;
@@ -33,7 +34,9 @@ enum FixType {
 	D3 = 3;
 	}
 
-// Test of the gps pos msg
+// Test of the gps pos msg - for mavlink 1.0 this is 30 bytes (or 38 bytes including all framing).  
+// For a 'short 2d only' fix gpsshorttest.txt the pb implementation is 31 bytes fully loaded.
+// For a full version with all fields populated gpslongtest.txt, the pb implementation is 50 bytes.
 message GpsRawInt {
 	required uint64 time_usec = 1;
         optional FixType fix_type = 2;
@@ -56,7 +59,7 @@ enum EnvelopeMsgCode {
 
 // Envelope to contain all the messages. At any time, ONLY 1 of the optional fields can be used.
 message Envelope {
-	// Note, I'm assuming - seq #, framing byte, length and CRC are encoded outside the land of protobufs. 
+	// Note, I'm assuming - seq #, framing byte, length and CRC are encoded outside the land of protobufs. (adds 5 bytes)
 
 	required uint32 system_id = 1;
 	required uint32 component_id = 2;

@@ -1,0 +1,15 @@
+system_id: 1
+component_id: 1
+type: GpsRawIntCode
+gpsRawInt: {
+  time_usec: 678912034
+  fix_type: D2
+  lat: 1201234
+  lon: 1201234
+  alt: 102000
+  eph: 2000
+  epv: 2000
+  vel: 2000
+  cog: 20000
+  satellites_visible: 5
+}
