@@ -1,8 +1,14 @@
 # Python highlevel sketch
 
+## Getting an API instance
+# You connect to a particular API implementation by using one of three factory methods...
+
 api = DApi.webConnect(username, password)
 api = DApi.gcsConnect(‘localhost’)
 api = DApi.vehicleLocalConnect()
+
+## Getting a vehicle instance
+# You can get a list of controllable/monitorable vehicles by using one of the following methods
 
 # Get all vehicles user has access to (may be capped in the web case)
 # includeOffline is an optional param, if true non connected vehicles will be included (for historical purposes)
@@ -13,6 +19,9 @@ vehicles = api.getVehicles(includeLive = True)
 vehicles = api.getVehicles(lat1, lon1, lat2, lon2, includeOffline = False)
 
 v = api.createVehicle(vehicleId, vehicleType, notes)
+
+## Working with vehicles
+# Once you have a vehicle you can do a bunch of interesting things with it.
 
 v.delete()
 
@@ -34,28 +43,30 @@ v.goto(location)
 wpts = v.getWaypoints()
 v.setWaypoints(wpts)
 
+## Getting missions (to see historical data or read/create live mavlink traffic)
+
 # where logId is either a log id or ‘recent’ for most recent log, or ‘current’ for the current live log
 # flight logs are streams of annotated mavlink messages.  The flightlog object also includes metadata
 # about that flight.
-flog = v.getFlightlog(logId)
+m = v.getMission(logId)
 
-# Operations for uploading flogs
-flog = v.createFlight(‘notes’)
-flog.uploadMavlink(timestampedPackets)
-flog.endFlight()
+# Operations for uploading mavlink from GCSes/vehicles
+m = v.createMission(‘notes’)
+m.uploadMavlink(timestampedPackets)
+m.endMission()
 
-# Delete flight log
-flog.delete()
+# Delete the mission
+m.delete()
 
 # The complete set of mavlink messages (mostly useful in case of historical logs)
-packets = flog.getMavlink()
+packets = m.getMavlink()
 # Callback will be invoked asynchronously for each new mavlink message received
-flog.setMavlinkCallback(callback)
+m.setMavlinkCallback(callback)
 
-locations = flog.getLocations()
-flog.setLocationCallback(callback)
+locations = m.getLocations()
+m.setLocationCallback(callback)
 
-modes = flog.getMode
+modes = m.getMode
 
 # To send raw mavlink to a vehicle
 v.sendMavlink(packet)
