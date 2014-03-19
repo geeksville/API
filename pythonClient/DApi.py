@@ -13,7 +13,19 @@ class Mission(object):
     from the REST API.  (This is based on the most likely use-cases wanting a REST interface)"""
     pass
 
-class Parameters(object):
+class HasAttributeObservers(object):
+    """Provides callback based notification on attribute changes"""
+    def add_attribute_observer(self, attr_name, observer):
+        pass
+    
+    def remove_attribute_observer(self, attr_name, observer):
+        pass
+    
+    def notify_observers(self, attr_name, new_value):
+        pass
+    
+    
+class Parameters(HasAttributeObservers):
     """The set of named parameters for the vehicle"""
     
     def __getattr__(self, name):
@@ -34,12 +46,14 @@ class Waypoints(object):
         """Currently active waypoint number"""
         return self._next
 
-    @property.setter
-    def _set_next(self, value):
+    @next.setter
+    def next(self, value):
         """Tell vehicle to change next waypoint"""
-        pass
+        self._next = value
 
-class Vehicle(object):
+class Vehicle(HasAttributeObservers):
+    """FIXME - how to handle async callbacks"""
+    
     def __init__(self):
         self.waypoints = Waypoints()
         self.parameters = Parameters()
@@ -56,6 +70,11 @@ class Vehicle(object):
         Access to historical missions will not be included in the release 1 python API, they will only be accessible
         from the REST API.  (This is based on the most likely use-cases wanting a REST interface)"""        
         return Mission()
+    
+    def send_mavlink(self, bytes):
+        """This is an advanced/low-level method to send raw mavlink to the vehicle.  If you find yourself needing to use
+        this please contact the drone-platform google group and we'll see if we can improve the standard API"""
+        pass
     
     def flush(self):
         """It is important to understand that setting attributes/changing vehicle state may occur over a slow link.
