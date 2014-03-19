@@ -4,8 +4,7 @@
 # You connect to a particular API implementation by using one of three factory methods...
 
 api = DApi.webConnect(username, password)
-api = DApi.gcsConnect(‘localhost’)
-api = DApi.vehicleLocalConnect()
+api = DApi.localConnect()
 
 ## Getting a vehicle instance
 # You can get a list of controllable/monitorable vehicles by using one of the following methods
