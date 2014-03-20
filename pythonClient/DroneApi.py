@@ -1,4 +1,4 @@
-# Drone API (DApi) module
+# DroneAPI module
 
 def webConnect(username, password):
     """Connect to the central dronehub server"""
@@ -8,15 +8,27 @@ def localConnect():
     """Connect to the API provider for the local GCS (or vehicle if running on vehicle)"""
     return APIConnection()
 
-class Mission(object):
-    """PLACEHOLDER
     
-    Access to historical missions will not be included in the release 1 python API, they will only be accessible
-    from the REST API.  (This is based on the most likely use-cases wanting a REST interface)"""
-    pass
+class APIConnection(object):
+    """
+    An API provider.
+
+    This is the top level API connection returned from localConnect() or webConnect().  You should not manually create instances of
+    this class.
+    """
+    
+    def get_vehicles(self, fixme):
+        """Find a set of vehicles that are controllable from this connection.  
+        
+        FIXME - explain how this works in the web case"""
+        return [ Vehicle(), Vehicle() ]
 
 class HasAttributeObservers(object):
-    """Provides callback based notification on attribute changes"""
+    """
+    Provides callback based notification on attribute changes.
+
+    The argument list for observer is TBD but probably observer(attr_name, new_value).
+    """
     def add_attribute_observer(self, attr_name, observer):
         """
         Add an observer.
@@ -43,36 +55,6 @@ class HasAttributeObservers(object):
         """
         pass
     
-    
-class Parameters(HasAttributeObservers):
-    """The set of named parameters for the vehicle"""
-    
-    def __getattr__(self, name):
-        pass
-    
-    def __setattr__(self, name, value):
-        pass
-
-class Waypoint(object):
-    """A waypoint object"""
-    pass
-
-class Waypoints(object):
-    """A sequence of vehicle waypoints"""
-    
-    def __init__(self):
-        self._next = None
-    
-    @property
-    def next(self):
-        """Currently active waypoint number"""
-        return self._next
-
-    @next.setter
-    def next(self, value):
-        """Tell vehicle to change next waypoint"""
-        self._next = value
-
 class Vehicle(HasAttributeObservers):
     """
     The main vehicle API
@@ -91,6 +73,7 @@ class Vehicle(HasAttributeObservers):
     user_<name> - For user specific parameters
     
     Standard attributes & types:
+
     ================= ========================================
     Name              Type
     ================= ========================================
@@ -104,15 +87,31 @@ class Vehicle(HasAttributeObservers):
     rc_channels       [ integers ] (read only)
     ap_pin5_mode      string (adc, dout, din)
     ap_pin5_value     double (0, 1, 2.3 etc...)
-    
-    FIXME - how to address the units issue?  Merely with documentation or some other way?
-    FIXME - is there any benefit of using lists rather than tuples for these attributes
+    ================= ========================================
+
+    * FIXME - how to address the units issue?  Merely with documentation or some other way?
+    * FIXME - is there any benefit of using lists rather than tuples for these attributes
+
     """    
     
     def __init__(self):
-        self.waypoints = Waypoints()
-        self.parameters = Parameters()
-        
+        self._waypoints = Waypoints()
+        self._parameters = Parameters()
+    
+    @property
+    def waypoints(self):
+        """
+        The (editable) waypoints for this vehicle.
+        """
+        return self._waypoints
+
+    @property
+    def parameters(self):
+        """
+        The (editable) parameters for this vehicle.
+        """
+        return self._parameters
+
     def delete(self):
         """Delete this vehicle object.
         
@@ -120,16 +119,32 @@ class Vehicle(HasAttributeObservers):
         local connections or insufficient user permissions)"""
         pass
     
-    def get_mission(self):
+    def get_mission(self, query_params):
         """PLACEHOLDER
-        
+
         Access to historical missions will not be included in the release 1 python API, they will only be accessible
-        from the REST API.  (This is based on the most likely use-cases wanting a REST interface)"""        
+        from the REST API.  (This is based on the most likely use-cases wanting a REST interface)
+
+        :param query_params: Some TBD set of arguments that can be used to find a past mission
+        :returns Mission -- the mission
+        """        
         return Mission()
     
-    def send_mavlink(self, bytes):
-        """This is an advanced/low-level method to send raw mavlink to the vehicle.  If you find yourself needing to use
-        this please contact the drone-platform google group and we'll see if we can improve the standard API"""
+    def send_mavlink(self, packet):
+        """
+        This is an advanced/low-level method to send raw mavlink to the vehicle.  
+
+        This method is included as an 'escape hatch' to allow developers to make progress if we've somehow missed providing
+        some essentential operation in the rest of this API.  Callers do not need to populate sysId/componentId/crc in the packet,
+        this method will take care of that before sending.
+
+        If you find yourself needing to use this mathod please contact the drone-platform google group and 
+        we'll see if we can support the operation you needed in some future revision of the API.
+
+        * FIXME: Instead of passing in bytes, probably better to have the developer pass in Mavlink packet objects.
+
+        :param: packet: A mavlink packet.
+        """
         pass
     
     def flush(self):
@@ -140,6 +155,12 @@ class Vehicle(HasAttributeObservers):
         pass
     
     def __getattr__(self, name):
+        """
+        Attributes are automatically populated based on vehicle type.  
+
+        This override provides that behavior.
+        """
+
         try:
             return self.__dict[name]
         except KeyError:
@@ -147,18 +168,64 @@ class Vehicle(HasAttributeObservers):
             raise AttributeError(msg.format(type(self).__name__, name))
     
     def __setattr__(self, name, value):
-        """Note: Exceptions due to loss of communications, missing attributes or insufficient permissions are not guaranteed
+        """
+        An override to support setting for vehicle attributes.
+
+        Note: Exceptions due to loss of communications, missing attributes or insufficient permissions are not guaranteed
         to be thrown from inside this method.  Most failures will not be seen until flush() is called.  If you require immediate
-        notification of failure set autoflush."""
+        notification of failure set autoflush.
+        """
+        pass
+
+class Mission(object):
+    """
+    Access to historical missions.
+
+    PLACEHOLDER - will not be included in the release 1 python API, they will only be accessible
+    from the REST API.  (This is based on the most likely use-cases wanting a REST interface)"""
+    pass
+    
+class Parameters(HasAttributeObservers):
+    """
+    The set of named parameters for the vehicle.
+
+    Attribute names are generated automatically based on parameter names.  Standard get/set operations can be performed.
+    Operations are not guaranteed to be complete until flush() is called on the parent Vehicle object.
+    """
+    
+    def __getattr__(self, name):
         pass
     
-class APIConnection(object):
-    """This is the top level API connection returned from localConnect() or webConnect"""
+    def __setattr__(self, name, value):
+        pass
+
+class Waypoint(object):
+    """
+    A waypoint object.
+
+    FIXME Documentation for Waypoint not included (yet).  But it will contain position, waypoint type and parameter arguments.
+    """
+    pass
+
+class Waypoints(object):
+    """
+    A sequence of vehicle waypoints.
+
+    Documentation for Waypoints not included (yet).  Operations will include 'array style' indexed access to the various contained Waypoints.
+    Any changes by the client are not guaranteed to be complete until flush() is called on the parent Vehicle object.
+    """
     
-    def get_vehicles(self, fixme):
-        """Find a set of vehicles that are controllable from this connection.  
-        
-        FIXME - explain how this works in the web case"""
-        return [ Vehicle(), Vehicle() ]
+    def __init__(self):
+        self._next = None
     
-    
+    @property
+    def next(self):
+        """Currently active waypoint number"""
+        return self._next
+
+    @next.setter
+    def next(self, value):
+        """Tell vehicle to change next waypoint"""
+        self._next = value
+
+

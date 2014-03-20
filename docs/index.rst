@@ -11,8 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-.. automodule:: DApi
+.. automodule:: DroneApi
    :members:
+   :inherited-members:
 
 Indices and tables
 ==================
