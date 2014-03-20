@@ -1,9 +1,11 @@
 # Drone API (DApi) module
 
 def webConnect(username, password):
+    """Connect to the central dronehub server"""
     return APIConnection()
 
 def localConnect():
+    """Connect to the API provider for the local GCS (or vehicle if running on vehicle)"""
     return APIConnection()
 
 class Mission(object):
@@ -16,12 +18,29 @@ class Mission(object):
 class HasAttributeObservers(object):
     """Provides callback based notification on attribute changes"""
     def add_attribute_observer(self, attr_name, observer):
+        """
+        Add an observer.
+        
+        :param attr_name: the attribute to watch
+        :param observer: the callback to invoke when change is detected
+        """
         pass
     
     def remove_attribute_observer(self, attr_name, observer):
+        """
+        Remove an observer.
+        
+        :param attr_name: the attribute to watch
+        :param observer: the callback to invoke when change is detected
+        """
         pass
     
     def notify_observers(self, attr_name, new_value):
+        """
+        (For subclass use only) Tell observers that the named attribute has changed.
+        
+        FIXME would it make sense just to override __setattr__?
+        """
         pass
     
     
@@ -35,9 +54,12 @@ class Parameters(HasAttributeObservers):
         pass
 
 class Waypoint(object):
+    """A waypoint object"""
     pass
 
 class Waypoints(object):
+    """A sequence of vehicle waypoints"""
+    
     def __init__(self):
         self._next = None
     
@@ -52,14 +74,48 @@ class Waypoints(object):
         self._next = value
 
 class Vehicle(HasAttributeObservers):
-    """FIXME - how to handle async callbacks"""
+    """
+    The main vehicle API
+    
+    Asynchronous notification on change of vehicle state is available by registering observers (callbacks) for attribute or
+    parameter changes.
+ 
+    Most vehicle state is exposed through python attributes.  (i.e. vehicle.location, etc...)  And most of these attributes are
+    auto populated based on the capabilities of the particular autopilot we are talking to.
+    
+    Particular autopilots/vehicles may define different attributes from this standard list (extra batteries, GPIOs, etc...)
+    However if a standard attribute is defined it must follow the rules specified below.
+    
+    To prevent name clashes the following naming convention should be used:
+    ap_<name> - For autopilot specific parameters (apm 2.5, pixhawk etc...).  Example: 
+    user_<name> - For user specific parameters
+    
+    Standard attributes & types:
+    ================= ========================================
+    Name              Type
+    ================= ========================================
+    location          (latitude, longitude, altitude-msl)
+    waypoint_home     Waypoint
+    attitude          (pitch, yaw, roll)
+    mode              string
+    battery_0_soc     double
+    battery_0_volt    double
+    rc_overrides      [ integers ]
+    rc_channels       [ integers ] (read only)
+    ap_pin5_mode      string (adc, dout, din)
+    ap_pin5_value     double (0, 1, 2.3 etc...)
+    
+    FIXME - how to address the units issue?  Merely with documentation or some other way?
+    FIXME - is there any benefit of using lists rather than tuples for these attributes
+    """    
     
     def __init__(self):
         self.waypoints = Waypoints()
         self.parameters = Parameters()
         
     def delete(self):
-        """Delete this vehicle object
+        """Delete this vehicle object.
+        
         This requests deletion of the object on the server, this operation may throw an exception on failure (i.e. for
         local connections or insufficient user permissions)"""
         pass
@@ -84,30 +140,6 @@ class Vehicle(HasAttributeObservers):
         pass
     
     def __getattr__(self, name):
-        """
-        Particular autopilots/vehicles may define different attributes from this standard list (extra batteries, GPIOs, etc...)
-        However if a standard attribute is defined it must follow the rules specified below.
-        
-        To prevent name clashes the following naming convention should be used:
-        ap_<name> - For autopilot specific parameters (apm 2.5, pixhawk etc...).  Example: 
-        user_<name> - For user specific parameters
-        
-        Standard attributes & types:
-        location: (latitude, longitude, altitude-msl)
-        waypoint_home: Waypoint
-        attitude: (pitch, yaw, roll)
-        mode: string
-        battery_0_soc: double
-        battery_0_volt: double
-        rc_overrides: [ integers ]
-        rc_channels: [ integers ] (read only)
-        
-        ap_pin5_mode: string (adc, dout, din)
-        ap_pin5_value: double (0, 1, 2.3 etc...)
-        
-        FIXME - address the units issue?
-        FIXME - is there any benefit of using lists rather than tuples for these attributes
-        """
         try:
             return self.__dict[name]
         except KeyError:
@@ -121,7 +153,12 @@ class Vehicle(HasAttributeObservers):
         pass
     
 class APIConnection(object):
+    """This is the top level API connection returned from localConnect() or webConnect"""
+    
     def get_vehicles(self, fixme):
+        """Find a set of vehicles that are controllable from this connection.  
+        
+        FIXME - explain how this works in the web case"""
         return [ Vehicle(), Vehicle() ]
     
     
