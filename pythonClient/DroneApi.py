@@ -1,10 +1,10 @@
 # DroneAPI module
 
-def webConnect(username, password):
+def web_connect(username, password):
     """Connect to the central dronehub server"""
     return APIConnection()
 
-def localConnect():
+def local_connect():
     """Connect to the API provider for the local GCS (or vehicle if running on vehicle)"""
     return APIConnection()
 
@@ -147,6 +147,18 @@ class Vehicle(HasAttributeObservers):
         """
         pass
     
+    def set_mavlink_callback(self, callback):
+        """
+        Provides asynchronous notification when any mavlink packet is received from this vehice.  FOR DISCUSSION!
+
+        Note: I've included this prototype for feedback.  I _hope_ that it isn't necessary to provide this method as part 
+        of the API, because I think because of the async attribute/waypoint/parameter notifications there is no need for
+        API clients to see raw mavlink.  Did I miss any use cases?  Feedback?
+
+        If we do need to include this method it would be easy to implement.
+        """
+        pass
+
     def flush(self):
         """It is important to understand that setting attributes/changing vehicle state may occur over a slow link.
         It is _not_ guaranteed that the effects of previous commands will be visible from reading vehicle attributes unless
