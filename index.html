@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to DroneApi’s documentation! &mdash; DroneApi 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="DroneApi 0.1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">DroneApi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-droneapi-s-documentation">
+<h1>Welcome to DroneApi&#8217;s documentation!<a class="headerlink" href="#welcome-to-droneapi-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<span class="target" id="module-DroneApi"></span><dl class="class">
+<dt id="DroneApi.APIConnection">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">APIConnection</tt><a class="headerlink" href="#DroneApi.APIConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>An API provider.</p>
+<p>This is the top level API connection returned from localConnect() or webConnect().  You should not manually create instances of
+this class.</p>
+<dl class="method">
+<dt id="DroneApi.APIConnection.get_vehicles">
+<tt class="descname">get_vehicles</tt><big>(</big><em>fixme</em><big>)</big><a class="headerlink" href="#DroneApi.APIConnection.get_vehicles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find a set of vehicles that are controllable from this connection.</p>
+<p>FIXME - explain how this works in the web case</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="DroneApi.HasAttributeObservers">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">HasAttributeObservers</tt><a class="headerlink" href="#DroneApi.HasAttributeObservers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides callback based notification on attribute changes.</p>
+<p>The argument list for observer is TBD but probably observer(attr_name, new_value).</p>
+<dl class="method">
+<dt id="DroneApi.HasAttributeObservers.add_attribute_observer">
+<tt class="descname">add_attribute_observer</tt><big>(</big><em>attr_name</em>, <em>observer</em><big>)</big><a class="headerlink" href="#DroneApi.HasAttributeObservers.add_attribute_observer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attr_name</strong> &#8211; the attribute to watch</li>
+<li><strong>observer</strong> &#8211; the callback to invoke when change is detected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.HasAttributeObservers.notify_observers">
+<tt class="descname">notify_observers</tt><big>(</big><em>attr_name</em>, <em>new_value</em><big>)</big><a class="headerlink" href="#DroneApi.HasAttributeObservers.notify_observers" title="Permalink to this definition">¶</a></dt>
+<dd><p>(For subclass use only) Tell observers that the named attribute has changed.</p>
+<p>FIXME would it make sense just to override __setattr__?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.HasAttributeObservers.remove_attribute_observer">
+<tt class="descname">remove_attribute_observer</tt><big>(</big><em>attr_name</em>, <em>observer</em><big>)</big><a class="headerlink" href="#DroneApi.HasAttributeObservers.remove_attribute_observer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attr_name</strong> &#8211; the attribute to watch</li>
+<li><strong>observer</strong> &#8211; the callback to invoke when change is detected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="DroneApi.Mission">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Mission</tt><a class="headerlink" href="#DroneApi.Mission" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access to historical missions.</p>
+<p>PLACEHOLDER - will not be included in the release 1 python API, they will only be accessible
+from the REST API.  (This is based on the most likely use-cases wanting a REST interface)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="DroneApi.Parameters">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Parameters</tt><a class="headerlink" href="#DroneApi.Parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>The set of named parameters for the vehicle.</p>
+<p>Attribute names are generated automatically based on parameter names.  Standard get/set operations can be performed.
+Operations are not guaranteed to be complete until flush() is called on the parent Vehicle object.</p>
+<dl class="method">
+<dt id="DroneApi.Parameters.add_attribute_observer">
+<tt class="descname">add_attribute_observer</tt><big>(</big><em>attr_name</em>, <em>observer</em><big>)</big><a class="headerlink" href="#DroneApi.Parameters.add_attribute_observer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attr_name</strong> &#8211; the attribute to watch</li>
+<li><strong>observer</strong> &#8211; the callback to invoke when change is detected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Parameters.notify_observers">
+<tt class="descname">notify_observers</tt><big>(</big><em>attr_name</em>, <em>new_value</em><big>)</big><a class="headerlink" href="#DroneApi.Parameters.notify_observers" title="Permalink to this definition">¶</a></dt>
+<dd><p>(For subclass use only) Tell observers that the named attribute has changed.</p>
+<p>FIXME would it make sense just to override __setattr__?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Parameters.remove_attribute_observer">
+<tt class="descname">remove_attribute_observer</tt><big>(</big><em>attr_name</em>, <em>observer</em><big>)</big><a class="headerlink" href="#DroneApi.Parameters.remove_attribute_observer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attr_name</strong> &#8211; the attribute to watch</li>
+<li><strong>observer</strong> &#8211; the callback to invoke when change is detected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="DroneApi.Vehicle">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Vehicle</tt><a class="headerlink" href="#DroneApi.Vehicle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main vehicle API</p>
+<p>Asynchronous notification on change of vehicle state is available by registering observers (callbacks) for attribute or
+parameter changes.</p>
+<p>Most vehicle state is exposed through python attributes.  (i.e. vehicle.location, etc...)  And most of these attributes are
+auto populated based on the capabilities of the particular autopilot we are talking to.</p>
+<p>Particular autopilots/vehicles may define different attributes from this standard list (extra batteries, GPIOs, etc...)
+However if a standard attribute is defined it must follow the rules specified below.</p>
+<p>To prevent name clashes the following naming convention should be used:
+ap_&lt;name&gt; - For autopilot specific parameters (apm 2.5, pixhawk etc...).  Example: 
+user_&lt;name&gt; - For user specific parameters</p>
+<p>Standard attributes &amp; types:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>location</td>
+<td>(latitude, longitude, altitude-msl)</td>
+</tr>
+<tr class="row-odd"><td>waypoint_home</td>
+<td>Waypoint</td>
+</tr>
+<tr class="row-even"><td>attitude</td>
+<td>(pitch, yaw, roll)</td>
+</tr>
+<tr class="row-odd"><td>mode</td>
+<td>string</td>
+</tr>
+<tr class="row-even"><td>battery_0_soc</td>
+<td>double</td>
+</tr>
+<tr class="row-odd"><td>battery_0_volt</td>
+<td>double</td>
+</tr>
+<tr class="row-even"><td>rc_overrides</td>
+<td>[ integers ]</td>
+</tr>
+<tr class="row-odd"><td>rc_channels</td>
+<td>[ integers ] (read only)</td>
+</tr>
+<tr class="row-even"><td>ap_pin5_mode</td>
+<td>string (adc, dout, din)</td>
+</tr>
+<tr class="row-odd"><td>ap_pin5_value</td>
+<td>double (0, 1, 2.3 etc...)</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>FIXME - how to address the units issue?  Merely with documentation or some other way?</li>
+<li>FIXME - is there any benefit of using lists rather than tuples for these attributes</li>
+</ul>
+<dl class="method">
+<dt id="DroneApi.Vehicle.add_attribute_observer">
+<tt class="descname">add_attribute_observer</tt><big>(</big><em>attr_name</em>, <em>observer</em><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.add_attribute_observer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attr_name</strong> &#8211; the attribute to watch</li>
+<li><strong>observer</strong> &#8211; the callback to invoke when change is detected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Vehicle.delete">
+<tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete this vehicle object.</p>
+<p>This requests deletion of the object on the server, this operation may throw an exception on failure (i.e. for
+local connections or insufficient user permissions)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Vehicle.flush">
+<tt class="descname">flush</tt><big>(</big><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is important to understand that setting attributes/changing vehicle state may occur over a slow link.
+It is _not_ guaranteed that the effects of previous commands will be visible from reading vehicle attributes unless
+flush() is called first.  After the return from flush any writes are guaranteed to have completed (or thrown an
+exception) and future reads will see their effects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Vehicle.get_mission">
+<tt class="descname">get_mission</tt><big>(</big><em>query_params</em><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.get_mission" title="Permalink to this definition">¶</a></dt>
+<dd><p>PLACEHOLDER</p>
+<p>Access to historical missions will not be included in the release 1 python API, they will only be accessible
+from the REST API.  (This is based on the most likely use-cases wanting a REST interface)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query_params</strong> &#8211; Some TBD set of arguments that can be used to find a past mission</td>
+</tr>
+</tbody>
+</table>
+<p>:returns Mission &#8211; the mission</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Vehicle.notify_observers">
+<tt class="descname">notify_observers</tt><big>(</big><em>attr_name</em>, <em>new_value</em><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.notify_observers" title="Permalink to this definition">¶</a></dt>
+<dd><p>(For subclass use only) Tell observers that the named attribute has changed.</p>
+<p>FIXME would it make sense just to override __setattr__?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="DroneApi.Vehicle.parameters">
+<tt class="descname">parameters</tt><a class="headerlink" href="#DroneApi.Vehicle.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>The (editable) parameters for this vehicle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Vehicle.remove_attribute_observer">
+<tt class="descname">remove_attribute_observer</tt><big>(</big><em>attr_name</em>, <em>observer</em><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.remove_attribute_observer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attr_name</strong> &#8211; the attribute to watch</li>
+<li><strong>observer</strong> &#8211; the callback to invoke when change is detected</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="DroneApi.Vehicle.send_mavlink">
+<tt class="descname">send_mavlink</tt><big>(</big><em>packet</em><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.send_mavlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is an advanced/low-level method to send raw mavlink to the vehicle.</p>
+<p>This method is included as an &#8216;escape hatch&#8217; to allow developers to make progress if we&#8217;ve somehow missed providing
+some essentential operation in the rest of this API.  Callers do not need to populate sysId/componentId/crc in the packet,
+this method will take care of that before sending.</p>
+<p>If you find yourself needing to use this mathod please contact the drone-platform google group and 
+we&#8217;ll see if we can support the operation you needed in some future revision of the API.</p>
+<ul class="simple">
+<li>FIXME: Instead of passing in bytes, probably better to have the developer pass in Mavlink packet objects.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param :</th><td class="field-body">packet: A mavlink packet.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="DroneApi.Vehicle.waypoints">
+<tt class="descname">waypoints</tt><a class="headerlink" href="#DroneApi.Vehicle.waypoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>The (editable) waypoints for this vehicle.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="DroneApi.Waypoint">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Waypoint</tt><a class="headerlink" href="#DroneApi.Waypoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A waypoint object.</p>
+<p>FIXME Documentation for Waypoint not included (yet).  But it will contain position, waypoint type and parameter arguments.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="DroneApi.Waypoints">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Waypoints</tt><a class="headerlink" href="#DroneApi.Waypoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>A sequence of vehicle waypoints.</p>
+<p>Documentation for Waypoints not included (yet).  Operations will include &#8216;array style&#8217; indexed access to the various contained Waypoints.
+Any changes by the client are not guaranteed to be complete until flush() is called on the parent Vehicle object.</p>
+<dl class="attribute">
+<dt id="DroneApi.Waypoints.next">
+<tt class="descname">next</tt><a class="headerlink" href="#DroneApi.Waypoints.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currently active waypoint number</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="DroneApi.localConnect">
+<tt class="descclassname">DroneApi.</tt><tt class="descname">localConnect</tt><big>(</big><big>)</big><a class="headerlink" href="#DroneApi.localConnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to the API provider for the local GCS (or vehicle if running on vehicle)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="DroneApi.webConnect">
+<tt class="descclassname">DroneApi.</tt><tt class="descname">webConnect</tt><big>(</big><em>username</em>, <em>password</em><big>)</big><a class="headerlink" href="#DroneApi.webConnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to the central dronehub server</p>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to DroneApi&#8217;s documentation!</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">DroneApi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Kevin Hester.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
