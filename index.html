@@ -343,6 +343,16 @@ we&#8217;ll see if we can support the operation you needed in some future revisi
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="DroneApi.Vehicle.set_mavlink_callback">
+<tt class="descname">set_mavlink_callback</tt><big>(</big><em>callback</em><big>)</big><a class="headerlink" href="#DroneApi.Vehicle.set_mavlink_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides asynchronous notification when any mavlink packet is received from this vehice.  FOR DISCUSSION!</p>
+<p>Note: I&#8217;ve included this prototype for feedback.  I _hope_ that it isn&#8217;t necessary to provide this method as part 
+of the API, because I think because of the async attribute/waypoint/parameter notifications there is no need for
+API clients to see raw mavlink.  Did I miss any use cases?  Feedback?</p>
+<p>If we do need to include this method it would be easy to implement.</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="DroneApi.Vehicle.waypoints">
 <tt class="descname">waypoints</tt><a class="headerlink" href="#DroneApi.Vehicle.waypoints" title="Permalink to this definition">¶</a></dt>
@@ -373,14 +383,14 @@ Any changes by the client are not guaranteed to be complete until flush() is cal
 </dd></dl>
 
 <dl class="function">
-<dt id="DroneApi.localConnect">
-<tt class="descclassname">DroneApi.</tt><tt class="descname">localConnect</tt><big>(</big><big>)</big><a class="headerlink" href="#DroneApi.localConnect" title="Permalink to this definition">¶</a></dt>
+<dt id="DroneApi.local_connect">
+<tt class="descclassname">DroneApi.</tt><tt class="descname">local_connect</tt><big>(</big><big>)</big><a class="headerlink" href="#DroneApi.local_connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect to the API provider for the local GCS (or vehicle if running on vehicle)</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="DroneApi.webConnect">
-<tt class="descclassname">DroneApi.</tt><tt class="descname">webConnect</tt><big>(</big><em>username</em>, <em>password</em><big>)</big><a class="headerlink" href="#DroneApi.webConnect" title="Permalink to this definition">¶</a></dt>
+<dt id="DroneApi.web_connect">
+<tt class="descclassname">DroneApi.</tt><tt class="descname">web_connect</tt><big>(</big><em>username</em>, <em>password</em><big>)</big><a class="headerlink" href="#DroneApi.web_connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect to the central dronehub server</p>
 </dd></dl>
 
