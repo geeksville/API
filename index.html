@@ -69,6 +69,27 @@ this class.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="DroneApi.Command">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Command</tt><a class="headerlink" href="#DroneApi.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>A waypoint object.</p>
+<p>FIXME Documentation for Waypoint not included (yet).  But it will contain position, waypoint type and parameter arguments.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="DroneApi.CommandSequence">
+<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">CommandSequence</tt><a class="headerlink" href="#DroneApi.CommandSequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>A sequence of vehicle waypoints.</p>
+<p>Documentation for Waypoints not included (yet).  Operations will include &#8216;array style&#8217; indexed access to the various contained Waypoints.
+Any changes by the client are not guaranteed to be complete until flush() is called on the parent Vehicle object.</p>
+<dl class="attribute">
+<dt id="DroneApi.CommandSequence.next">
+<tt class="descname">next</tt><a class="headerlink" href="#DroneApi.CommandSequence.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currently active waypoint number</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="DroneApi.HasAttributeObservers">
 <em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">HasAttributeObservers</tt><a class="headerlink" href="#DroneApi.HasAttributeObservers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides callback based notification on attribute changes.</p>
@@ -193,8 +214,8 @@ user_&lt;name&gt; - For user specific parameters</p>
 <p>Standard attributes &amp; types:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="30%" />
-<col width="70%" />
+<col width="24%" />
+<col width="76%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Name</th>
@@ -220,11 +241,11 @@ user_&lt;name&gt; - For user specific parameters</p>
 <tr class="row-odd"><td>battery_0_volt</td>
 <td>double</td>
 </tr>
-<tr class="row-even"><td>rc_overrides</td>
-<td>[ integers ]</td>
+<tr class="row-even"><td>channel_override</td>
+<td>Dictionary (channelName -&gt; value) (formery rc_override)</td>
 </tr>
-<tr class="row-odd"><td>rc_channels</td>
-<td>[ integers ] (read only)</td>
+<tr class="row-odd"><td>channel_readback</td>
+<td>Dictionary (channelName -&gt; value) (read only)</td>
 </tr>
 <tr class="row-even"><td>ap_pin5_mode</td>
 <td>string (adc, dout, din)</td>
@@ -234,6 +255,24 @@ user_&lt;name&gt; - For user specific parameters</p>
 </tr>
 </tbody>
 </table>
+<p>channel_override/channel_readback documentation:
+In the previous version of this API I used the &#8216;tried and true&#8217;
+rc_override terminology.  However I&#8217;ve changed rc_override to be
+channel_override with a dictionary as the argument.  
+(This idea is from &#64;rmackay9 - thanks!)</p>
+<p>Strings will be defined per vehicle type (&#8216;pitch&#8217;, &#8216;yaw&#8217;, &#8216;roll&#8217; etc...)
+and rather than setting channel 3 to 1400 (for instance), you will pass
+in a dict with &#8216;throttle&#8217;:1200.  If you do not want to override particular
+channels, you should not populate them in the dictionary.</p>
+<p>It is worth noting by using a single dictionary it is guaranteed that all
+multi-channel changes are updated atomically.</p>
+<p>This change will be nice in two ways:</p>
+<ul class="simple">
+<li>we can hide (eventually we can deprecate) any notion of rc channel</li>
+</ul>
+<p>numbers at all.
+* vehicles can eventually define new &#8216;channels&#8217; for overridden values.</p>
+<p>Remaining FIXMEs:</p>
 <ul class="simple">
 <li>FIXME - how to address the units issue?  Merely with documentation or some other way?</li>
 <li>FIXME - is there any benefit of using lists rather than tuples for these attributes</li>
@@ -254,6 +293,12 @@ user_&lt;name&gt; - For user specific parameters</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="DroneApi.Vehicle.commands">
+<tt class="descname">commands</tt><a class="headerlink" href="#DroneApi.Vehicle.commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>The (editable) waypoints for this vehicle.</p>
 </dd></dl>
 
 <dl class="method">
@@ -351,33 +396,6 @@ we&#8217;ll see if we can support the operation you needed in some future revisi
 of the API, because I think because of the async attribute/waypoint/parameter notifications there is no need for
 API clients to see raw mavlink.  Did I miss any use cases?  Feedback?</p>
 <p>If we do need to include this method it would be easy to implement.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="DroneApi.Vehicle.waypoints">
-<tt class="descname">waypoints</tt><a class="headerlink" href="#DroneApi.Vehicle.waypoints" title="Permalink to this definition">¶</a></dt>
-<dd><p>The (editable) waypoints for this vehicle.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="DroneApi.Waypoint">
-<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Waypoint</tt><a class="headerlink" href="#DroneApi.Waypoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>A waypoint object.</p>
-<p>FIXME Documentation for Waypoint not included (yet).  But it will contain position, waypoint type and parameter arguments.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="DroneApi.Waypoints">
-<em class="property">class </em><tt class="descclassname">DroneApi.</tt><tt class="descname">Waypoints</tt><a class="headerlink" href="#DroneApi.Waypoints" title="Permalink to this definition">¶</a></dt>
-<dd><p>A sequence of vehicle waypoints.</p>
-<p>Documentation for Waypoints not included (yet).  Operations will include &#8216;array style&#8217; indexed access to the various contained Waypoints.
-Any changes by the client are not guaranteed to be complete until flush() is called on the parent Vehicle object.</p>
-<dl class="attribute">
-<dt id="DroneApi.Waypoints.next">
-<tt class="descname">next</tt><a class="headerlink" href="#DroneApi.Waypoints.next" title="Permalink to this definition">¶</a></dt>
-<dd><p>Currently active waypoint number</p>
 </dd></dl>
 
 </dd></dl>
