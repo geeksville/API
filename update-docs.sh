@@ -9,7 +9,9 @@ cp -a _build/html /tmp/autodocs
 cd ..
 git checkout gh-pages
 cp -a /tmp/autodocs/* .
+set +e
 find . | xargs git add
+set -e
 git commit -m "Update docs"
 git push
 git checkout -f master
