@@ -95,11 +95,11 @@ class Vehicle(HasAttributeObservers):
     """    
     
     def __init__(self):
-        self._waypoints = Waypoints()
+        self._waypoints = CommandSequence()
         self._parameters = Parameters()
     
     @property
-    def waypoints(self):
+    def commands(self):
         """
         The (editable) waypoints for this vehicle.
         """
@@ -211,7 +211,7 @@ class Parameters(HasAttributeObservers):
     def __setattr__(self, name, value):
         pass
 
-class Waypoint(object):
+class Command(object):
     """
     A waypoint object.
 
@@ -219,7 +219,7 @@ class Waypoint(object):
     """
     pass
 
-class Waypoints(object):
+class CommandSequence(object):
     """
     A sequence of vehicle waypoints.
 
