@@ -1,6 +1,8 @@
+#!/bin/bash
 
-exit
-FIXME make sure we wont run if git dir not clean or if we have faults
+set -e
+
+echo Switching to doc tree
 cd docs
 make html
 rm -r /tmp/autodocs
@@ -11,5 +13,5 @@ cp -a /tmp/autodocs/* .
 find . | xargs git add
 git commit -m "Update docs"
 git push
-git checkout master
+git checkout -f master
 
