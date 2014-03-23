@@ -74,21 +74,43 @@ class Vehicle(HasAttributeObservers):
     
     Standard attributes & types:
 
-    ================= ========================================
+    ================= =======================================================
     Name              Type
-    ================= ========================================
+    ================= =======================================================
     location          (latitude, longitude, altitude-msl)
     waypoint_home     Waypoint
     attitude          (pitch, yaw, roll)
     mode              string
     battery_0_soc     double
     battery_0_volt    double
-    rc_overrides      [ integers ]
-    rc_channels       [ integers ] (read only)
+    channel_override  Dictionary (channelName -> value) (formery rc_override)
+    channel_readback  Dictionary (channelName -> value) (read only)
     ap_pin5_mode      string (adc, dout, din)
     ap_pin5_value     double (0, 1, 2.3 etc...)
-    ================= ========================================
+    ================= =======================================================
 
+    channel_override/channel_readback documentation:
+    In the previous version of this API I used the 'tried and true'
+    rc_override terminology.  However I've changed rc_override to be
+    channel_override with a dictionary as the argument.  
+    (This idea is from @rmackay9 - thanks!)
+    
+    Strings will be defined per vehicle type ('pitch', 'yaw', 'roll' etc...)
+    and rather than setting channel 3 to 1400 (for instance), you will pass
+    in a dict with 'throttle':1200.  If you do not want to override particular
+    channels, you should not populate them in the dictionary.
+    
+    It is worth noting by using a single dictionary it is guaranteed that all
+    multi-channel changes are updated atomically.
+    
+    This change will be nice in two ways:
+    
+    * we can hide (eventually we can deprecate) any notion of rc channel
+    numbers at all.
+    * vehicles can eventually define new 'channels' for overridden values. 
+
+    Remaining FIXMEs:
+    
     * FIXME - how to address the units issue?  Merely with documentation or some other way?
     * FIXME - is there any benefit of using lists rather than tuples for these attributes
 
